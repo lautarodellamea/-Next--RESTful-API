@@ -5,8 +5,11 @@ import { TodoItem } from "./TodoItem"
 
 
 // importamos todo asi ya tenemos todas las funciones
-import * as todosApi from '@/todos/helpers/todos'
+// import * as todosApi from '@/todos/helpers/todos'
 import { useRouter } from "next/navigation"
+
+// server actions
+import { toggleTodo } from "../actions/todo-actions"
 
 
 
@@ -22,13 +25,14 @@ export const TodosGrid = ({ todos = [] }: Props) => {
   const router = useRouter()
 
 
-  const toggleTodo = async (id: string, complete: boolean) => {
-    const updateTodo = await todosApi.updateTodo(id, complete)
-    console.log(updateTodo)
-
-
-    router.refresh()
-  }
+  // esta funcion manda a llamar la peticion http
+  // la comente porque estamos usando una fucnion directamente de server actions
+  /*   const toggleTodo = async (id: string, complete: boolean) => {
+      const updateTodo = await todosApi.updateTodo(id, complete)
+      console.log(updateTodo)
+      router.refresh()
+    }
+   */
 
 
 

@@ -19,7 +19,7 @@ const sleep = (seconds: number = 0): Promise<boolean> => {
 export const updateTodo = async (id: string, complete: boolean): Promise<Todo> => {
 
   // pasaran 2 segundos antes de que se ejecute todo, esto lo hacemos para ver la diferencia con la actualizacion optimista que veremos mas adelante
-  await sleep(2)
+  // await sleep(2)
 
   const body = { complete: complete }
 
