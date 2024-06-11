@@ -1,3 +1,4 @@
+import { getUserSessionServer } from '@/auth/components/actions/auth-actions'
 import prisma from '@/lib/prisma'
 import { Todo } from '@prisma/client'
 import { NextResponse } from 'next/server'
@@ -13,7 +14,17 @@ interface Segments {
 // hacemos una funcionnpara reutilizar y manejar esto
 // de esta forma podemos extraer logica y simplificar el codigo dentro de las funciones de peticion
 const getTodo = async (id: string): Promise<Todo | null> => {
+
+  const user = await getUserSessionServer()
+  if (!user) return null
+
+
   const todo = await prisma.todo.findFirst({ where: { id: id } })
+
+  // para que no me deje acceder a un todo de otra persona
+  if (todo?.userId !== user.id) { return null }
+
+
   return todo
 }
 

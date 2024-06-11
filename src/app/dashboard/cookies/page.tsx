@@ -26,7 +26,7 @@ export default function CookiesPage() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 
-      {JSON.stringify(allCookies, null, 2)}
+      {/* {JSON.stringify(allCookies, null, 2)} */}
 
       <div className="flex flex-col">
         <span className="text-3xl">Tabs</span>

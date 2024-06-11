@@ -6,6 +6,7 @@
 import prisma from "@/lib/prisma"
 import { Todo } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { getUserSessionServer } from '../../auth/components/actions/auth-actions';
 
 // usaremos esta funcion apra simular latencia y ver como el useOptimistic Hook funciona haciendo parecer que hay cero de latencia pero el backend funciona con normalidad
 export const sleep = async (seconds: number = 0) => {
@@ -23,7 +24,9 @@ export const toggleTodo = async (id: string, complete: boolean): Promise<Todo> =
   // para que esta funcion solamente se ejecute del lado del servidor puedo hacer esto tambien
   // 'use client'
 
-  await sleep(3)
+  // await sleep(3)
+
+
 
   const todo = await prisma.todo.findFirst({ where: { id: id } })
 
@@ -45,14 +48,17 @@ export const toggleTodo = async (id: string, complete: boolean): Promise<Todo> =
 
 
 
-export const addTodo = async (description: string) => {
+export const addTodo = async (description: string, userId: string) => {
+
 
   try {
 
 
+
     const todo = await prisma.todo.create({
       data: {
-        description: description
+        description: description,
+        userId: userId
       }
     })
 

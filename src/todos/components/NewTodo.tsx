@@ -2,17 +2,17 @@
 
 import { FormEvent, useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-// lo comente porque voy a usar server actions
-// import * as todosApi from '@/todos/helpers/todos'
+
+import * as todosApi from '@/todos/helpers/todos'
 
 import { addTodo, deleteCompleted } from "../actions/todo-actions";
 
 
 export const NewTodo = () => {
 
-  // const router = useRouter()
+  const router = useRouter()
 
   const [description, setDescription] = useState('')
 
@@ -22,11 +22,14 @@ export const NewTodo = () => {
     if (description.trim().length === 0) return
 
     // console.log(description)
-    // todosApi.createTodo(description)
-    await addTodo(description)
+    await todosApi.createTodo(description)
+
+    // si usaramos el server action deberiamos leer el usuario aca y mandarle el id
+    // await addTodo(description, user.id)
+
     setDescription('')
 
-    // router.refresh()
+    router.refresh()
 
   }
 

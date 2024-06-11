@@ -1,3 +1,4 @@
+import { getUserSessionServer } from '@/auth/components/actions/auth-actions'
 import prisma from '@/lib/prisma'
 import { NextResponse } from 'next/server'
 import * as yup from 'yup'
@@ -37,13 +38,20 @@ const postSchema = yup.object({
 // crear un todo
 export async function POST(request: Request) {
 
+
+
   try {
+
+    const user = await getUserSessionServer()
+    if (!user) return NextResponse.json({ message: "No hay usuario logueado" }, { status: 401 })
+
     const { complete, description } = await postSchema.validate(await request.json())
 
     const todo = await prisma.todo.create({
       data: {
         complete,
-        description
+        description,
+        userId: user.id
       }
     })
 
@@ -61,9 +69,12 @@ export async function POST(request: Request) {
 // eliminar todos
 export async function DELETE(request: Request) {
 
+  const user = await getUserSessionServer()
+  if (!user) return NextResponse.json({ message: "No hay usuario logueado" }, { status: 401 })
+
   try {
 
-    await prisma.todo.deleteMany({ where: { complete: true } })
+    await prisma.todo.deleteMany({ where: { complete: true, userId: user.id } })
 
     return NextResponse.json("Elementos borrados con exito")
 
